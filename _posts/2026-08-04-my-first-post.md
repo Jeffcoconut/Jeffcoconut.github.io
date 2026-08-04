@@ -90,9 +90,6 @@ console.log(greeting("Jeff"));
 > 这是一条危险操作提示
 {: .prompt-danger }
 
-### 图片
-
-![示例图片](https://via.placeholder.com/800x400?text=My+First+Post)
 
 ### 链接
 
