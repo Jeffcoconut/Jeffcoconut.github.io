@@ -22,12 +22,12 @@ mermaid: true
 
 ## part1 mini_skyvern project:
 
->任务目标： 根据 Skyvern 仓库，做一个可以本地化部署、运行并调试优化的Agent demo。Agent将根据`Playwright`自动操控网页，完成类似点击、输入以及导航等工作；此外，Agent能够从网页当中提取结构化数据，例如扒取网页表哥数据等要求；最后，对于Agent运行过程中存在的LLM决策过程进行记录，并将相应的过程缓存为可以复用的Python代码。
+>任务目标： 根据 Skyvern 仓库，做一个可以本地化部署、运行并调试优化的Agent demo。Agent将根据`Playwright`自动操控网页，完成类似点击、输入以及导航等工作；此外，Agent能够从网页当中提取结构化数据，例如扒取网页表格数据等要求；最后，对于Agent运行过程中存在的LLM决策过程进行记录，并将相应的过程缓存为可以复用的Python代码。
 {: .prompt-info}
 
 ### 从Playwright开始
 
-在正式学习阅读 skyvern 的仓库前，除了去 skyvern 的官网上体验了 skyvern 的功能和服务，我顺便也简单学习了一下 Playwright 这套由 Microsoft 团队开发出的工具。对于一个相关经验较为欠缺的小白而言，做学习复现之前先把底层的API工具所能做到的事情了解清楚对于后续的工作还是比较有帮助。
+在正式学习阅读 skyvern 的仓库前，除了去 skyvern 的官网上体验了 skyvern 的功能和服务，我顺便也简单学习了一下 Playwright 这套由 Microsoft 团队开发出的工具。对于一个相关经验较为欠缺的小白而言，做复现之前先把底层的API工具所能做到的事情了解清楚对于后续的工作还是比较有帮助。
 
 总体而言，Playwright 是由 Microsoft 开发的跨浏览器Web自动化与测试框架。通过提供统一的API来控制Chromium、Firefox 和 WebKit三大浏览器引擎，可用于端到端测试自动化、脚本化浏览器交互以及开发者工具集成等方面。此外，Playwright 还提供了相应的 MCP 协议以及专用的 CLI ， 使得其对于后续的Agent工程以及LLM驱动相关工具非常友好。
 
@@ -49,9 +49,15 @@ Playwright 在 github 上以 monorepo 的形式进行管理，下设多个npm的
 
 **首先是API层**。在API层，用户通过前端UI向RESTful API接口发出调度申请，由API层触发Agent层进行决策工作。在此基础上，加了CORS进行安全防护。
 
-**其次是Agent决策层**。决策层的核心代码是`agent.py`，其负责保证每一次的quest严格遵循 observe -> Think -> Act -> Verify -> Extract 的顺序逻辑执行。其中，observe 的是 DOM 结构化的 json 文档（通过`scraper.py`产生）；然后调用LLM模型进行具体决策（Think）；接着根据 LLM 指令对浏览器引擎层下操作指令（Act）；随后检查操作页面是否发生改变（Verify）；最后把需要的数据拿出来（Extract）。
+**其次是Agent决策层**。决策层的核心代码是`agent.py`，其负责保证每一次的quest严格遵循 observe -> Think -> Act -> Verify -> Extract 的顺序逻辑执行。其中，observe 观察的是 DOM 结构化的 json 文档（通过`scraper.py`实现）；然后，调用LLM模型进行具体决策（Think）；接着，根据 LLM 指令对浏览器引擎层下操作指令（Act）；随后检查操作页面是否发生改变（Verify）；最后把需要的数据拿出来（Extract）。
 
 剩下的两个py文档中，`llm_client.py`将Agent Main Loop中的需求转化为结构化为给LLM的问题，（根据`prompts.py`当中定义了三类skills模版执行问询。三个模版一个是具体action的模版、一个是查询任务进度的模版、最后一个是针对性的提取数据的模版），然后再将LLM的回复解析成结构化的数据。同时，`llm_client.py`通过 `async` 定义对外方法，使系统在不同的 quest 之间异步运行的时候不会出现阻塞的情况。
+
+**其三是浏览引擎层**。
+
+**然后是缓存层**。
+
+**最后是存储层**。
 
 ## part2 advancement from mini_skyvern to skyvern:
 
