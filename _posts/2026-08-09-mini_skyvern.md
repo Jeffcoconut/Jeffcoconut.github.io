@@ -41,9 +41,17 @@ Playwright 在 github 上以 monorepo 的形式进行管理，下设多个npm的
 
 ### mini_skyvern 框架总览
 
+>在正式开始梳理**mini_skyvern project**的框架之前，可以先通过下图建立一个大体上的认识。
 
 ![gailan1](/assets/img/mini_skyvern/gailan1.png){: width="100%" }
 
+整个框架下，**mini_skyvern** 包含5层核心架构层。
+
+**首先是API层**。在API层，用户通过前端UI向RESTful API接口发出调度申请，由API层触发Agent层进行决策工作。在此基础上，加了CORS进行安全防护。
+
+**其次是Agent决策层**。决策层的核心代码是`agent.py`，其负责保证每一次的quest严格遵循 observe -> Think -> Act -> Verify -> Extract 的顺序逻辑执行。其中，observe 的是 DOM 结构化的 json 文档（通过`scraper.py`产生）；然后调用LLM模型进行具体决策（Think）；接着根据 LLM 指令对浏览器引擎层下操作指令（Act）；随后检查操作页面是否发生改变（Verify）；最后把需要的数据拿出来（Extract）。
+
+剩下的两个py文档中，`llm_client.py`将Agent Main Loop中的需求转化为结构化为给LLM的问题，（根据`prompts.py`当中定义了三类skills模版执行问询。三个模版一个是具体action的模版、一个是查询任务进度的模版、最后一个是针对性的提取数据的模版），然后再将LLM的回复解析成结构化的数据。同时，`llm_client.py`通过 `async` 定义对外方法，使系统在不同的 quest 之间异步运行的时候不会出现阻塞的情况。
 
 ## part2 advancement from mini_skyvern to skyvern:
 
