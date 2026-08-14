@@ -143,10 +143,30 @@ mini_skyvern 总共采取了四层 *反反爬虫* 对策：
 
 
 ![DOM_tree](/assets/img/mini_skyvern/DOM_tree.png){: width="100%" }
+
+
 通过 javascript 提取下来的DOM树
 {: style="text-align: centre"}
 
 取得DOM树以后，我们要将其转化为LLM可以理解的文本表示。通过转化后的文本，LLM需要理解三件事情：首先，哪些元素是可以做点击、输入以及选择等操作的；其次，需要通过XPath的方式，为后续的action操作定位元素位置；最后，需要提取整个页面的文本，供LLM理解上下文。（~~写着写着发现不对头了 我之前做的时候甚至没让ai帮我解决html结构混淆问题 感觉这个 *反反爬虫* 机制做了个寂寞啊~~）
+
+在进行可交互元素提取的时候，我们要先进行选择器匹配。我让AI把CSS选择器覆盖的可交互元素类型调了出来并简单总结了一下，放在此处作为后续参考。（可能需要添加一些需要额外交互的元素以提升对于部分网站的识别处理能力）
+
+```javascript
+const selector = 'a, button, input, textarea, select, [role="button"], [onclick]';
+const allElements = document.querySelector(selector);
+```
+
+目前覆盖了以下 Web 页面上的可交互元素类型：
+- `a` —— 超链接（导航、跳转）
+- `button` —— 按钮（提交、确认）
+- `input` —— 输入框（文本、搜索、复选框）
+- `textarea` —— 多行文本输入
+- `select` —— 下拉选择菜单
+- `[role="button"]` —— ARIA 角色为按钮的自定义元素（现代 SPA 框架常用）
+- `[onclick]` —— 绑定了点击事件的元素
+
+进行完选择器匹配以后，
 
 >以上即是mini_skyvern初步实现的功能，接下来我们将结合成熟的 skyvern 进一步分析 mini_skyvern还能在哪些方面进行优化。
 
