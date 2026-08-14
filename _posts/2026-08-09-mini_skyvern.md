@@ -78,9 +78,73 @@ Playwright 在 github 上以 monorepo 的形式进行管理，下设多个npm的
 
 ### 浏览引擎层
 
+>在浏览引擎层，我们初步判断将是可以进行比较大优化的一个方面。因为核心的爬取执行，以及LLM浏览网页，点击各种界面的操作均在此层执行，而该层目前的核心逻辑较为简单且工具也比较有限。在这个部分，我们将主要总结梳理现在采用的 *反反爬虫* 操作以及页面提取方法。
+
+>因为对 *反反爬虫* 以及 *爬虫* 相关方法完全不了解，所以把AI推荐的方法基本上全部放了上去。这块的说明将直接采用AI的说明，快速了解即可。
+{: .prompt-warning}
+
+
+总共采取了四层 *反反爬虫* 对策：
+
+- **第一层：启动参数级隐藏**
+    ```python
+    args=['--disable-blink-features=AutomationControlled']
+    ```
+    这条Chromium启动参数会禁用 Blink 引擎的自动化控制标记，从浏览器内核层面移除`navigator.webdriver = true`的默认行为。
+
+- **第二层：JavaScript注入级伪装**
+    ```javascript
+    // 在页面加载前注入，覆盖浏览器原生属性
+    Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+    window.chrome = { runtime: {} };
+    Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5]})
+    ```
+    这段代码在 `page.evaluate()` 中执行，在页面的 JavaScript 上下文启动之前就已经生效。它做了三件事：
+    - 将 `navigator.webdriver` 重定义为 `undefined`（而不是 `true`）
+    - 伪造 `window.chrome.runtime` 对象（正常 Chrome 浏览器都有这个对象）
+    - 伪造 `navigator.plugins` 列表（headless 浏览器默认为空）
+
+- **第三层：浏览器指纹伪装**
+    ```python
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ... Chrome/120.0.0.0'
+    locale = 'zh-CN'
+    timezone_id = 'Asia/Shanghai'
+    viewport = {"width": 1366, "height": 900}
+    ```
+    模拟一个真实 Windows 用户的 Chrome 120+ 浏览器，包括 User-Agent、语言、时区和视口尺寸。
+
+- **第四层：行为级模拟**
+    >（模仿真人的一些访问使用习惯）
+    
+    操作间隔模拟：
+    ```python
+    # action_handler.py
+    delay = random.uniform(0.3, 1.2) # 每次动作前 300 - 1200ms 随机延迟
+    await asyncio.sleep(delay)
+    ```
+
+    打字行为模拟：
+    ```python
+    # 不用 fill() (一次性填充)，而是逐字符 type（）
+    await locator.focus()
+    await locator.clear()
+    for char in action.text:
+        await locator.type(char, delay=random.uniform(50,150))
+        # 每个字符间延迟 50-150ms
+    ```
+    
+    为什么有效：
+    - 反爬虫库（DataDome、 PerimeterX）分析键盘事件时序
+    - fill()产生的时间几乎同时触发
+    - 逐字符type()模拟真人打字模式
+
 
 
 ### 缓存/存储层
+
+>
+
+>以上即是mini_skyvern初步实现的功能，接下来我们将结合成熟的 skyvern 进一步分析 mini_skyvern还能在哪些方面进行优化。
 
 ## part2 advancement from mini_skyvern to skyvern:
 
