@@ -53,11 +53,13 @@ Playwright 在 github 上以 monorepo 的形式进行管理，下设多个npm的
 
 剩下的两个py文档中，`llm_client.py`将Agent Main Loop中的需求转化为结构化为给LLM的问题，（根据`prompts.py`当中定义了三类skills模版执行问询。三个模版一个是具体action的模版、一个是查询任务进度的模版、最后一个是针对性的提取数据的模版），然后再将LLM的回复解析成结构化的数据。同时，`llm_client.py`通过 `async` 定义对外方法，使系统在不同的 quest 之间异步运行的时候不会出现阻塞的情况。
 
-**其三是浏览引擎层**。
+**其三是浏览引擎层**。通过调用 Playwright 的公共API，mini_skyvern 在浏览引擎层设置了13个函数作为操作工具，根据功能封装成4个py操作工具集。其中，`browser_manager.py`目的主要是进行绕过反爬程序、进行页面导航后获取page对象；`scraper.py`则进行页面爬取并截图；`action_handler.py`可以点击网页上的元素，输入字符等;`data_extractor.py`用来进行结构化数据的提取。
 
-**然后是缓存层**。
+**然后是缓存层**。缓存层用来接收`agent.py`传来的已经成功的完整的action_history列表，这个列表当中记录着Agent循环中每一步的动作以及结果。随后`Script_generator.py`对整个action_history列表写成可执行的代码，并把相关代码逻辑保存到存储层的cached_scripts表。当下次同一个URL以及任务目标进来以后，可以直接调用缓存层的代码逻辑，为整体运行节省时间提升效率。
 
-**最后是存储层**。
+**最后是存储层**。结构比较简单，除了保存缓存的脚本表以外，还保存提取的数据表，步骤运行详情和任务主表等内容，以便让用户能够查询任务状态，Agent循环过程和最终的任务输出结果等。
+
+>至此，mini_skyvern project 的整体框架已经清晰。接下来将仔细探讨一下一些比较经典的技术实现，以期能够找到对于mini_skyvern进行优化的方向。
 
 ## part2 advancement from mini_skyvern to skyvern:
 
