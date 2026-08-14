@@ -143,7 +143,8 @@ mini_skyvern 总共采取了四层 *反反爬虫* 对策：
 
 
 ![DOM_tree](/assets/img/mini_skyvern/DOM_tree.png){: width="100%" }
->通过 javascript 提取下来的DOM树
+通过 javascript 提取下来的DOM树
+{: style="text-align: centre"}
 
 取得DOM树以后，我们要将其转化为LLM可以理解的文本表示。通过转化后的文本，LLM需要理解三件事情：首先，哪些元素是可以做点击、输入以及选择等操作的；其次，需要通过XPath的方式，为后续的action操作定位元素位置；最后，需要提取整个页面的文本，供LLM理解上下文。（~~写着写着发现不对头了 我之前做的时候甚至没让ai帮我解决html结构混淆问题 感觉这个 *反反爬虫* 机制做了个寂寞啊~~）
 
