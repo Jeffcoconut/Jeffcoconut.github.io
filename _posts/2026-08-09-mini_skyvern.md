@@ -218,6 +218,21 @@ const allElements = document.querySelector(selector);
 
 ## part2 advancement from mini_skyvern to skyvern:
 
+>在解析 skyvern 完整仓库之前，我们先总结一下mini_skyvern在实现过程中存在的问题。这将对于我们拆解 skyvern 完整仓库有引导性作用。
+{: .prompt-tip}
+
+目前的 mini_skyvern 的核心决策层是一个agent-loop（遵循观察 - 思考 - 行动 - 验证 - 提取数据）循环。在这个循环当中的步骤中，嵌有基于playwright的工具，主要实现的逻辑是“ 提取DOM -> 生成XPath/CSS选择器”。我初步观察的问题主要在以下几点：
+- 在做DOM -> LLM可读结构的转化时，只做了简单的DOM序列化正向处理，鲁棒性差。（skyvern在这个部分有大量细节处理）
+- 在CSS选择器以及LLM可以操作的 Action 设置上过于简单。
+- 缺乏视觉模型进辅助处理，对网页上可视化组建的理解能力大幅下降。
+- 面对页面更新或新页面的情况时，暴力求 XPath 的时候会频繁触发重排以及大量的节点遍历导致时间和空间上的效率不佳。
+- 在进行反爬以及验证码等问题处理时，设置较为简单，且对于一些动作执行循环的边界处理不清。
+
+所以接下来我们将结合 deepwiki 解析 skyvern 仓库，完善 mini_skyvern 的功能并根据具体情境需求做进一步优化。
+
+### Agent 决策层优化
+
+###
 
 ## part3 回顾总结
 
