@@ -1,8 +1,8 @@
 ---
 title: 我的第一篇博客
 date: 2026-05-04 10:00:00 +0800
-categories: [随笔]
-tags: [建站, 入门]
+categories: [建站]
+tags: [入门]
 math: true
 pin: true
 mermaid: true
