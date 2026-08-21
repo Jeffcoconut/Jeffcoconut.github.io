@@ -9,7 +9,3 @@ mermaid: true
 ---
 
 ## 每次登陆网站请刷新一下缓存，以确保收到最新的文章
-
-### I sit at my window this morning where the world like a passer-by stops for a moment, nods to me and goes.
-
-### The mystery of creation is like the darkness of night -- it is great. Delusions of knowledge are like the fog of morning.

@@ -1,25 +1,29 @@
 ---
-title: mini_skyvern project
+title: mini_skyvern project（1）
 date: 2026-08-09 14:30:00 +0800
 categories: [DEEP_AGENTS基础]
-tags: [入门, AGENTS]
+tags: [入门, mini_skyvern project]
 math: true
 pin: false
 mermaid: true
 ---
 
->由于整篇文章的写作时间跨度较大，前面的内容和后面的内容之间的写作时间间隔将近小半个月。在此期间，不断有新的收获，也意识到自己之前的见解相当片面且不成熟。所以在原本写好的开头前，多加一个 part 来作为 mini_skyvern project 复盘的引言。（原本写好的 mini_skyvern project 部分仍将保留，以作为实践与成长的记录）
+>由于整篇文章的写作时间跨度较大，前面的内容和后面的内容之间的写作时间间隔将大半个月。在此期间，不断有新的收获，也意识到自己之前的见解相当片面且不成熟。因为整篇文章最终扩展的长度超乎预期，所以将原本的一篇复盘文章拆分成3个部分，并在原本写好的开头前，多加一个 part 来作为 mini_skyvern project 复盘的引言。
 {: .prompt-warning}
 
 ## 写在所有内容之前：
 
-mini_skyvern project 是我近阶段尝试过的难度比较大的项目，整个复现+复盘总结经历的时间跨度比较长，在此期间亦经历了一些方向上的调整和转变。
+**mini_skyvern project**是我首次尝试做一个中大型的项目，整个复现+复盘总结经历的时间跨度比较长，在此期间亦经历了一些方向上的调整和转变。
 
-而这也导致了这篇文章相较于另外几篇文章而言，结构较为混乱。所以在文章最前面，我简单梳理一下文章的架构，以便读者进行阅读。
+这也导致了整个**mini_skyvern project**的复盘相较于另外几篇而言，结构较为混乱。所以在文章最前面，我简单介绍一下三份复盘文章的内容和结构，以便读者进行阅读。
 
-**part0 前言、 part1 mini_skyvern project、 part 2 advancement from mini_skyvern to skyvern截断部分前**这几个部分主要是在前期写完，主要介绍前期做出的最小demo、相关的知识点及算法总结和初步调优思路；**part 2 advancement from mini_skyvern to skyvern截断部分后**主要是后期根据 deepwiki 进行功能叠加，多轮AI对抗审查优化后总结的实际优化方向和结果。
+**mini_skyvern project（1）** 主要记录了前期完成的工作，介绍前期做出的单步操作最小demo、基础的知识点、算法总结和初步调优思路；
 
-两个板块之间如果存在一些需要进行勾连的地方，都设置了超链接以进行标注，希望以此缓解未来阅读的压力。
+**mini_skyvern project（2）** 主要记录了后期完成的最终方案。后期重新使用体验了 skyvern 后，根据 deepwiki codemap 重新调整了 **mini_skyvern project** 的架构，随后通过多轮AI对抗审查优化后总结的实际优化方向和结果。整体的架构、agent层内容和算法实现都发生了较大的调整。
+
+**mini_skyvern project（3）** 主要记录了后期的各种debug相关内容。专门将相关内容记录下来，以提高自己对于代码运行逻辑/技术优化等方面的敏锐度，进而提升自己未来喂 prompt 以及进行 Agent 工程的能力。
+
+因为**mini_skyvern project（2）（3）**在写作的时候将默认大家都阅读过**mini_skyvern project（1）**，所以建议从 **mini_skyvern project（1）** 开始阅读，不然可能影响阅读体验～ （~~虽然现在回头看project（1）相较于后续的优化而言做的确实非常非常简单~~）
 
 ## part0 前言：
 
@@ -244,7 +248,8 @@ const allElements = document.querySelector(selector);
 >所以接下来我们将结合 deepwiki 解析 skyvern 仓库，完善 mini_skyvern 的功能并根据具体情境需求做进一步优化。
 
 ---
->以上的内容写于7月底8月初，主要介绍了 mini_skyvern project 的基础框架以及用到的基础小算法。但是在项目后续迭代的过程中，我们先根据 deepwiki 的 codemap 功能向 mini_skyvern 中添加了许多额外的功能，然后又让 AI 进行了多轮对抗性代码审查以优化整体的性能和架构。因为整体的优化结构发生了较大调整，难以按照 part2 原有的行文结构继续迭写下去。所以在此截断，重新开始写。但是上文写的原本的优化思考和方向也将保留，以作为和后文的对照比较。（相关内容已经进行特殊处理，以便和正文进行对照）
+>以上的内容写于8月初，主要介绍了 mini_skyvern project 的基础框架以及用到的基础小算法。但是在项目后续迭代的过程中，我们重新体验了 skyvern 的功能并根据 deepwiki 的 codemap 整体调整了 mini_skyvern 的架构，然后又让 AI 进行了多轮对抗性代码审查以优化整体的性能和架构。因为整体的结构发生调整并叠加了大量优化，难以按照原有的行文结构继续完成part 2。所以在此截断，重新开一篇新的文章``mini_skyvern project (2)``介绍调整后的 mini_skyvern 架构、优化后的各类方法等。
 {: .prompt-danger}
 
-## part3 回顾总结
+[下一篇：mini_skyvern（2）]({% post_url 2026-08-21-mini_skyvern2 %})
+
