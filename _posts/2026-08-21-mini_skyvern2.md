@@ -1,3 +1,4 @@
+---
 title: mini_skyvern project（2）
 date: 2026-08-09 14:30:00 +0800
 categories: [DEEP_AGENTS基础]
@@ -6,3 +7,4 @@ math: true
 pin: false
 mermaid: true
 ---
+
