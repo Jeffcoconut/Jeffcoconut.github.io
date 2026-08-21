@@ -8,6 +8,6 @@ pin: true
 mermaid: true
 ---
 
-## I sit at my window this morning where the world like a passer-by stops for a moment, nods to me and goes.
+### I sit at my window this morning where the world like a passer-by stops for a moment, nods to me and goes.
 
-## The mystery of creation is like the darkness of night -- it is great. Delusions of knowledge are like the fog of morning.
+### The mystery of creation is like the darkness of night -- it is great. Delusions of knowledge are like the fog of morning.
