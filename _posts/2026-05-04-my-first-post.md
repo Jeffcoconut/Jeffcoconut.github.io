@@ -4,7 +4,7 @@ date: 2026-05-04 10:00:00 +0800
 categories: [建站]
 tags: [入门]
 math: true
-pin: true
+pin: false
 mermaid: true
 ---
 
