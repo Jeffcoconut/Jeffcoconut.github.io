@@ -12,4 +12,4 @@ mermaid: true
 
 正式开始前，先放一张框架图进行直观展示。
 
-![框架说明图](/assets/img/mini_skyvern(2)/mini_skyvern2shuomingtu.jpg){: width="100%" }
+![框架说明图](/assets/img/mini_skyvern2/mini_skyvern2shuomingtu.jpg){: width="100%" }

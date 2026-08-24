@@ -245,8 +245,8 @@ const allElements = document.querySelector(selector);
 ## part2 advancement from mini_skyvern to skyvern:
 
 
->以上的内容写于8月初，主要介绍了 mini_skyvern project 的基础框架以及用到的基础小算法。但是在项目后续迭代的过程中，我们重新体验了 skyvern 的功能并根据 deepwiki 的 codemap 整体调整了 mini_skyvern 的架构，然后又让 AI 进行了多轮对抗性代码审查以优化整体的性能和架构。因为整体的结构发生调整并叠加了大量优化，难以按照原有的行文结构继续完成part 2以及剩余的内容。所以最后我决定把新的内容放到``mini_skyvern project (2)``当中，在新的文章里介绍更新后完整的 mini_skyvern 架构、以及各类优化的方法。如果想要继续阅读请点击下方链接。
-{: .prompt-danger}
+
+## part3 reflection：
 
 >如果想要了解框架上的优化调整，请前往 mini_skyvern（2）
 
