@@ -16,8 +16,8 @@ order: 4
 
 
 <div style="display: flex; gap: 10px;">
-  <img src="/assets/img/about/123.jpg" style="width: 50%;" />
-  <img src="/assets/img/about/321.jpg" style="width: 50%;" />
+  <img src="/assets/img/about/123.jpg" alt="美！" style="width: 50%;" />
+  <img src="/assets/img/about/321.jpg" alt="也很美！" style="width: 50%;" />
 </div>
 
 > 🤤
