@@ -261,7 +261,9 @@ const allElements = document.querySelector(selector);
 
 因此，在决策循环中，在优化`Observe`过程提取文本DOM树的同时，增补了带编号蓝框标记的截图作为辅助识别。通过给每一个可交互元素一个编号`(e1,e2,······)`，并在截图上画出来，让模型同时看到带编号截图与同编号的元素树，形成图文互证。这既提升了对于前端网页结构的识别，还带标记的截图还能作为人类使用者核验 mini_skyvern 实际效果的参考，为debug提供帮助。
 
-在具体实现上，AI大幅扩写了内嵌JS注入网页的代码文档（`annotation.py`）。
+在具体实现上，AI大幅扩写了内嵌JS注入网页的代码文档(`annotation.py`)。
+
+>以后可能还会进一步调整 mini_skyvern，所以将annotation.py当中的功能模块现有哪些功能保存在一个单独的markdown文档当中，具体查看可以点此链接查看。📎 [JS功能模块](/assets/docs/mini_skyvern1/checklist.md)
 
 ### 浏览引擎层
 

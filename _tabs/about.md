@@ -15,10 +15,7 @@ order: 4
 ### ~~宅家躺床大赛冠军~~
 
 
-<div style="display: flex; gap: 10px;">
-  <img src="/assets/img/about/123.jpg" alt="美！" style="width: 50%;" />
-  <img src="/assets/img/about/321.jpg" alt="也很美！" style="width: 50%;" />
-</div>
+![kaguya](/assets/img/about/123.jpg){: width="80%" }
 
-> 🤤
+> 头像用了一个kaguya，在这里放另一个🤤
 {: .prompt-tip }
