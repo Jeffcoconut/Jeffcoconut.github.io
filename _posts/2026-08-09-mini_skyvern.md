@@ -17,13 +17,13 @@ mermaid: true
 
 这也导致了整个**mini_skyvern project**的复盘相较于另外几篇而言，结构较为混乱。所以在文章最前面，我简单介绍一下三份复盘文章的内容和结构，以便读者进行阅读。
 
-**mini_skyvern project（1）** 主要记录了前期完成的工作，介绍前期做出的单步操作最小demo、基础的知识点、算法总结和初步调优思路；
+**mini_skyvern project（1）** 主要记录了对于单步quest的优化。其中包含了前期完成的工作，介绍前期做出的单步操作最小demo、基础的知识点、算法总结和初步调优思路；后期根据 deepwiki 以及 AI 多轮对抗审查后实际优化的方向和结果。
 
-**mini_skyvern project（2）** 主要记录了后期完成的最终方案。后期重新使用体验了 skyvern 后，根据 deepwiki codemap 重新调整了 **mini_skyvern project** 的架构，随后通过多轮AI对抗审查优化后总结的实际优化方向和结果。整体的架构、agent层内容和算法实现都发生了较大的调整。
+**mini_skyvern project（2）** 主要记录了整体架构和使用的优化调整。后期在重新使用体验了 skyvern 后，根据 deepwiki codemap 重新调整了 **mini_skyvern project** 的架构。整体的架构的架构发生了较大调整，所以单开一篇文章进行分享。
 
 **mini_skyvern project（3）** 主要记录了后期的各种debug相关内容。专门将相关内容记录下来，以提高自己对于代码运行逻辑/技术优化等方面的敏锐度，进而提升自己未来喂 prompt 以及进行 Agent 工程的能力。
 
-因为**mini_skyvern project（2）（3）**在写作的时候将默认大家都阅读过**mini_skyvern project（1）**，所以建议从 **mini_skyvern project（1）** 开始阅读，不然可能影响阅读体验～ （~~虽然现在回头看project（1）相较于后续的优化而言做的确实非常非常简单~~）
+>如果想直接阅读剩余两篇文章，跳转链接在文章末尾
 
 ## part0 前言：
 
@@ -226,30 +226,32 @@ const allElements = document.querySelector(selector);
 }
 ```
 
->以上内容即是相对来说比较值得记录复盘的一些内容，在写的过程当中我们也注意到至少3处优化点可以持续尝试。其他的比如一些ActionType定义了哪些ActionType等问题其实只要清楚到底有哪些类型即可，暂不展开。
-{: .prompt-warning}
+本来还有缓存、存储以及前端三个部分应该写完，但是这部分的内容相对来说没有太多好分享记录的点，只要完成了 Agent 决策层和浏览引擎层两个层级的设计，剩下这三个层级部分直接让AI根据功能需求完成剩下的代码即可。
 
-本来还有缓存、存储以及前端三个部分应该写完，但是这部分的内容相对来说没有太多好分享记录的点，只要完成了 Agent 决策层和浏览引擎层两个层级的优化调整，剩下这三个层级部分直接让AI进行对应的修改调整即可。
+>以上即是mini_skyvern初步实现的功能，我们不妨先初步总结一下可以进行优化调整的内容。
+{: .prompt-tip}
 
->以上即是mini_skyvern初步实现的功能，接下来我们将结合成熟的 skyvern 进一步分析 mini_skyvern还能在哪些方面进行优化。
+### 潜在优化方向分析：
+
+目前的 mini_skyvern 的核心决策层是一个agent-loop（遵循观察 - 思考 - 行动 - 验证 - 提取数据）循环。在这个循环当中的步骤中，嵌有基于playwright的工具，主要实现的逻辑是“ 提取DOM -> 生成XPath/CSS选择器”。我初步观察的问题主要在以下几点：
+- 在做DOM -> LLM可读结构的转化时，只做了简单的DOM序列化正向处理，鲁棒性差。（skyvern在这个部分有大量细节处理）
+- 在CSS选择器以及LLM可以操作的 Action 设置上过于简单。
+- 缺乏视觉进行辅助处理，对网页上可视化组建的理解能力大幅下降。
+- 面对页面更新或新页面的情况时，暴力求 XPath 的时候会频繁触发重排以及大量的节点遍历导致时间和空间上的效率不佳。
+- 在进行 反反爬 以及验证码等问题处理时，设置较为简单，且对于一些动作执行循环的边界处理不清。
+
+所以接下来我们将结合 deepwiki 解析 skyvern 仓库，完善 mini_skyvern 的功能并根据具体情境需求做进一步优化。
 
 ## part2 advancement from mini_skyvern to skyvern:
 
->在解析 skyvern 完整仓库之前，我们先总结一下mini_skyvern在实现过程中存在的问题。这将对于我们拆解 skyvern 完整仓库有引导性作用。
-{: .prompt-tip}
 
->目前的 mini_skyvern 的核心决策层是一个agent-loop（遵循观察 - 思考 - 行动 - 验证 - 提取数据）循环。在这个循环当中的步骤中，嵌有基于playwright的工具，主要实现的逻辑是“ 提取DOM -> 生成XPath/CSS选择器”。我初步观察的问题主要在以下几点：
->- 在做DOM -> LLM可读结构的转化时，只做了简单的DOM序列化正向处理，鲁棒性差。（skyvern在这个部分有大量细节处理）
->- 在CSS选择器以及LLM可以操作的 Action 设置上过于简单。
->- 缺乏视觉进行辅助处理，对网页上可视化组建的理解能力大幅下降。
->- 面对页面更新或新页面的情况时，暴力求 XPath 的时候会频繁触发重排以及大量的节点遍历导致时间和空间上的效率不佳。
->- 在进行 反反爬 以及验证码等问题处理时，设置较为简单，且对于一些动作执行循环的边界处理不清。
-
->所以接下来我们将结合 deepwiki 解析 skyvern 仓库，完善 mini_skyvern 的功能并根据具体情境需求做进一步优化。
-
----
->以上的内容写于8月初，主要介绍了 mini_skyvern project 的基础框架以及用到的基础小算法。但是在项目后续迭代的过程中，我们重新体验了 skyvern 的功能并根据 deepwiki 的 codemap 整体调整了 mini_skyvern 的架构，然后又让 AI 进行了多轮对抗性代码审查以优化整体的性能和架构。因为整体的结构发生调整并叠加了大量优化，难以按照原有的行文结构继续完成part 2。所以在此截断，重新开一篇新的文章``mini_skyvern project (2)``介绍调整后的 mini_skyvern 架构、优化后的各类方法等。
+>以上的内容写于8月初，主要介绍了 mini_skyvern project 的基础框架以及用到的基础小算法。但是在项目后续迭代的过程中，我们重新体验了 skyvern 的功能并根据 deepwiki 的 codemap 整体调整了 mini_skyvern 的架构，然后又让 AI 进行了多轮对抗性代码审查以优化整体的性能和架构。因为整体的结构发生调整并叠加了大量优化，难以按照原有的行文结构继续完成part 2以及剩余的内容。所以最后我决定把新的内容放到``mini_skyvern project (2)``当中，在新的文章里介绍更新后完整的 mini_skyvern 架构、以及各类优化的方法。如果想要继续阅读请点击下方链接。
 {: .prompt-danger}
+
+>如果想要了解框架上的优化调整，请前往 mini_skyvern（2）
 
 [下一篇：mini_skyvern（2）]({% post_url 2026-08-21-mini_skyvern2 %})
 
+>如果想要了解迭代过程中debug相关的内容，请前往 mini_skyver（3）
+
+[下一篇：mini_skyvern（3）]({% post_url 2026-08-24-mini_skyvern3 %})
