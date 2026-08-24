@@ -263,7 +263,7 @@ const allElements = document.querySelector(selector);
 
 在具体实现上，AI大幅扩写了内嵌JS注入网页的代码文档(`annotation.py`)。
 
->以后可能还会进一步调整 mini_skyvern，所以将annotation.py当中的功能模块现有哪些功能保存在一个单独的markdown文档当中，具体查看可以点此链接查看。📎 [JS功能模块](/assets/docs/mini_skyvern1/checklist.md)
+>以后可能还会进一步调整 mini_skyvern，所以将annotation.py当中的功能模块现有哪些功能保存在一个单独的markdown文档当中，具体查看可以点此链接查看。📎 [JS功能模块](/assets/docs/mini_skyvern1/checklist.html)
 
 ### 浏览引擎层
 
