@@ -14,9 +14,11 @@ order: 4
 
 ### ~~宅家躺床大赛冠军~~
 
-![123](/assets/img/about/123.jpg){: width="70%" }
 
-![123](/assets/img/about/321.jpg){: width="70%" }
+<div style="display: flex; gap: 10px;">
+  <img src="/assets/img/about/123.jpg" style="width: 50%;" />
+  <img src="/assets/img/about/321.jpg" style="width: 50%;" />
+</div>
 
 > 🤤
 {: .prompt-tip }
