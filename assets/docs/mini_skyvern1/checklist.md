@@ -1,5 +1,5 @@
 ---
-layout: null
+layout: page
 ---
 
 # 项目检查清单
