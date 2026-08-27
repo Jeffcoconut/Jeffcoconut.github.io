@@ -399,7 +399,19 @@ def action_signature(action):
 
 ### 反反爬与边界处理
 
-新版的 反反爬虫策略 仍然是按层次实施，遵循 浏览器伪装 -> 导航两段式实现goto -> 动作级拟人 -> 站点级策略插件`antibot.py` -> `solce_captcha`这样的流程。其中，浏览器伪装、goto和动作级拟人在一开始的设置当中就是有的，在新版中部分做了优化。
+新版的 反反爬虫策略 仍然是按层次实施，遵循 浏览器伪装 -> 导航两段式goto -> 动作级拟人 -> 策略插件`antibot.py` -> `solce_captcha`这样的流程。其中，浏览器伪装、goto和动作级拟人在一开始的设置当中就是有的，在新版中部分做了优化。
+
+#### 浏览器伪装
+
+#### 导航两段式goto
+
+>对于像我一样不是很了解什么是 goto 的初学者，我在这里放一个 AI 编写的小文档，可以通过这个文档先了解一下相关知识再阅读这个章节。📎 [goto简介](/assets/docs/mini_skyvern1/goto.html)
+
+#### 动作级拟人
+
+#### 策略插件`antibot.py`
+
+#### `solce_captcha`
 
 ## part3 reflection：
 
