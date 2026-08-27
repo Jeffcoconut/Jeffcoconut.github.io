@@ -403,11 +403,43 @@ def action_signature(action):
 
 #### 浏览器伪装
 
+在浏览器伪装方面，进行了伪装项的增补。通过一个表格简单确认一下条目即可。
+
+| 伪装项                  | 真浏览器的值       | Headless 的破绽                 |
+| ----------------------- | ------------------ | ------------------------------- |
+| `navigator.webdriver`   | `undefined`        | `true`                          |
+| `window.chrome`         | 存在               | 不存在                          |
+| `navigator.plugins`     | 3 个插件           | 空数组                          |
+| WebGL 渲染器            | Intel Iris...      | `"SwiftShader"`（一眼假）       |
+| `hardwareConcurrency`   | 4~16               | 常为 1 或缺失                   |
+
 #### 导航两段式goto
 
->对于像我一样不是很了解什么是 goto 的初学者，我在这里放一个 AI 编写的小文档，可以通过这个文档先了解一下相关知识再阅读这个章节。📎 [goto简介](/assets/docs/mini_skyvern1/goto.html)
+>对于像我一样不是很了解什么是 goto(浏览器加载) 的初学者，我在这里放一个 AI 编写的小文档，可以通过这个文档先了解一下相关知识再阅读这个章节。📎 [goto简介](/assets/docs/mini_skyvern1/goto.html)
+
+在旧版的 mini_skyvern 当中，面对打不开的主机（有些主机通过这种方式来反爬），goto（domcontentloaded -> load -> commit）这个流程会直接跑满超时。
+
+所以在新版 mini_skyvern 当中，多设置了一个`navigate()`函数来优化： 只有在确认主机是可响应的情况下才会等待整个goto流程运行完。
+```python
+# 第一段：可达性探针 -- 只等“响应头”到达
+await page.goto(target, wait_until="commit", timeout=settings.NAV_PROBE_TIMEOUT_MS)
+# 第二段：主机已确认活着，尽力等 DOM 就绪，等不到不判失败
+for state in ("domcontentloaded", "load"):
+    try:
+        await page.wait_for_load_state(state, timeout=settings.NAV_SETTLE_TIMEOUT_MS)
+        return
+    except Exception:
+        continue
+```
+如果在主机运行过程中直接出现了域名报错、网络不通等情况，那么直都不用触发到响应头，失败后会直接报错“请检查网址是否正确”等，方便进行检查。
+
+而对于反应比较慢的主机（或者有反爬load功能的），旧版 mini_skyvern 会一直被挂着然后卡死；新版会等待，但是也添加了等待时间上限的cap，防止无限等下去。
+
+总体而言，这部分主要是提升整体的运行效率。
 
 #### 动作级拟人
+
+这部分相较于旧版没有什么额外的变化，基础的动作级拟人维持了原样（够用了）。如果后续有针对特定网站要进行 反反爬 可以看策略插件`antibot.py`的部分。
 
 #### 策略插件`antibot.py`
 
