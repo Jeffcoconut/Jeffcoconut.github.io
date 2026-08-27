@@ -1,5 +1,5 @@
 ---
-title: mini_skyvern project（2）
+title: "mini_skyvern project 架构简览"
 date: 2026-08-21 14:30:00 +0800
 categories: [DEEP_AGENTS基础]
 tags: [入门, mini_skyvern project]
