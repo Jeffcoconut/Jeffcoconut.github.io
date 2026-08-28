@@ -1,5 +1,5 @@
 ---
-title: mini_skyvern project（1）
+title: mini_skyvern project 技术复盘
 date: 2026-08-09 14:30:00 +0800
 categories: [DEEP_AGENTS基础]
 tags: [入门, mini_skyvern project]
@@ -8,24 +8,32 @@ pin: false
 mermaid: true
 ---
 
->由于整篇复盘的写作时间跨度较大，前面的内容和后面的内容之间的写作时间间隔将大半个月。在此期间，不断有新的收获，所以文章内容越扩展越长。由于整篇文章最终扩展的长度超乎预期，所以将原本的一篇复盘文章拆分成3个部分，并在原本写好的开头前，多加一个 part 来作为 mini_skyvern project 复盘的引言。
-{: .prompt-warning}
+> mini_skyvern系列文章推荐阅读顺序：**mini_skyvern 架构简览** -> **mini_skyvern 技术复盘** -> **mini_skyvern project Debug Case**
+{: .prompt-tip}
+
+>如果想要了解框架上的调整以及整个项目的宏观全貌，请前往 mini_skyvern project 架构简览
+
+[下一篇：mini_skyvern project 架构简览]({% post_url 2026-08-21-mini_skyvern2 %})
+
+>如果想要了解迭代过程中debug相关的内容，请前往 mini_skyvern Debug case
+
+[下一篇：mini_skyvern Debug case]({% post_url 2026-08-24-mini_skyvern3 %})
+
+>由于整篇复盘的写作时间跨度较大，前面的内容和后面的内容之间的写作时间间隔将大半个月。在此期间，不断有新的收获，所以文章内容越扩展越长。由于整篇文章最终扩展的长度超乎预期，所以将原本的一篇复盘文章拆分成3个部分，并在原本写好的开头前，多加一个 part 来作为 mini_skyvern project 系列文章的复盘引言。
 
 ## 写在所有内容之前：
 
 **mini_skyvern project**是我首次尝试做一个中大型的项目，整个复现+复盘总结经历的时间跨度比较长，在此期间亦经历了一些方向上的调整和转变。
 
-因为内容量实在有些大，且这是我初次写技术文档，所以**mini_skyvern project**的复盘相较于另外几篇而言确实结构较为混乱。如果没有没有使用过 skyvern/ mini_skyvern 的话直接读 mini_skyvern project可能确实会比较痛苦，请海涵。
+因为内容量实在有些大，且这是我初次写技术文档，所以 **mini_skyvern project** 的文章结构相较于其他复盘而言确实结构较为混乱。
 
 在文章最前面，我简单介绍一下三份复盘文章的内容和结构，以便读者进行阅读。
 
-**mini_skyvern project（1）** 主要记录了对于单步quest的优化。其中包含了前期完成的工作，介绍前期做出的单步操作最小demo、基础的知识点、算法总结和初步调优思路；后期根据 deepwiki 以及 AI 多轮对抗审查后实际优化的方向和结果。
+**mini_skyvern project 技术复盘** 主要记录了对于单步quest的优化。其中包含了前期完成的工作，介绍前期做出的单步操作最小demo、基础的知识点、算法总结和初步调优思路；后期根据 deepwiki 以及 AI 多轮对抗审查后实际优化的方向和结果。
 
-**mini_skyvern project（2）** 主要记录了整体架构的重新设计。项目后期在重新使用体验了 skyvern 后，根据 deepwiki codemap 重新调整了 **mini_skyvern project** 的架构。整体的架构的架构发生了较大调整，所以单开一篇文章进行分享。
+**mini_skyvern project 架构简览** 主要记录了整体架构的重新设计。项目后期在重新使用体验了 skyvern 后，根据 deepwiki codemap 重新调整了 **mini_skyvern project** 的架构。整体的架构的架构发生了较大调整，所以单开一篇文章进行分享。
 
-**mini_skyvern project（3）** 主要记录了后期的各种debug相关内容。将这些内容记录下来，希望提高自己对于代码运行逻辑/技术优化等方面的敏锐度，进而提升自己未来喂 prompt 以及进行 Agent 工程的能力。
-
->如果想直接阅读剩余两篇文章，跳转链接在文章末尾
+**mini_skyvern project Debug Case** 主要记录了后期的各种debug相关内容。将这些内容记录下来，希望提高自己对于代码运行逻辑/技术优化等方面的敏锐度，进而提升自己未来喂 prompt 以及进行 Agent 工程的能力。
 
 ## part0 前言：
 
@@ -622,13 +630,5 @@ for state in ("domcontentloaded", "load"):
 
 ![qianduanyemian2](/assets/img/mini_skyvern/yemianjietu.png){: width="100%" }
 
-项目前端页面
+项目使用页面
 {: style="text-align: center"}
-
->如果想要了解框架上的优化调整，请前往 mini_skyvern project 架构简览
-
-[下一篇：mini_skyvern project 架构简览]({% post_url 2026-08-21-mini_skyvern2 %})
-
->如果想要了解迭代过程中debug相关的内容，请前往 mini_skyvern Debug case
-
-[下一篇：mini_skyvern Debug case]({% post_url 2026-08-24-mini_skyvern3 %})

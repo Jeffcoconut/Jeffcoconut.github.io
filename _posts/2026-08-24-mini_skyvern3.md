@@ -8,9 +8,18 @@ pin: false
 mermaid: true
 ---
 
-如果想了解 **mini_skyvern project** 相关的内容，可以看 mini_skyvern（1）和 mini_skyvern（2）两篇文章。本篇文章作为一篇 Debug 总结文档，主要是 AI 生成给站主自己看的。
+> mini_skyvern系列文章推荐阅读顺序：**mini_skyvern 架构简览** -> **mini_skyvern 技术复盘** -> **mini_skyvern project Debug Case**
+{: .prompt-tip}
 
->本篇文章将在 mini_skyvern（1）的基础上，继续介绍 **mini_skyvern project** 的debug 过程。同时，我也会总结一些在做项目的过程中因为 prompt 中的需求/边界逻辑没有讲清楚导致的代码问题，希望在以后的项目中相关方面能得到改进。
+>如果想要了解项目技术实现细节，请前往 mini_skyvern project 技术复盘
+
+[下一篇：mini_skyvern project 技术复盘]({% post_url 2026-08-09-mini_skyvern %})
+
+>如果想要了解迭代过程中debug相关的内容，请前往 mini_skyvern Debug Case
+
+[下一篇：mini_skyvern 架构简览]({% post_url 2026-08-21-mini_skyvern2 %})
+
+本篇文章作为一篇 Debug 总结文档，主要是 AI 生成给站主自己看的。文中会总结一些在做项目的过程中因为 prompt 中的需求/边界逻辑没有讲清楚导致的代码问题，希望在以后的项目中相关方面能得到改进。
 
 # mini_skyvern 调试与修复流程复盘
 
