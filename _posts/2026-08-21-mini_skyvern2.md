@@ -21,10 +21,20 @@ mermaid: true
 
 ### Welcome to the start!
 
->在浏览 mini_skyvern 系列文章之前，可以从这篇文章开始。虽然这是写作顺序上的第二篇文章，但阅读这篇概览能帮助读者建立对于 mini_skyvern project 的整体认知，从而更好地理解其他文章的内容，遂放在推荐阅读顺序的第一篇。
+>在浏览 mini_skyvern 系列文章之前，可以从这篇文章开始。虽然这是写作顺序上的第二篇文章，但阅读这篇概览能帮助读者建立对于 项目的整体认知，从而更好地理解其他文章的内容，遂放在推荐阅读顺序的第一篇。
 
-本篇文章将介绍 **mini_skyvern project** 的整体架构。在 **mini_skyvern project 技术复盘** 中，我们详细介绍了单步 quest 从一开始的 demo -> final version的演化过程。但是光有单步 quest 的 mini_skyvern 在功能上以及可玩性过于单一，所以在后期的调整中，mini_skyvern 参考 skyvern 加入了 的多 quest 组合功能等，完善了整体的架构。在 **mini_skyvern project 架构简览**当中，我们将详细介绍 mini_skyvern 最终版本的功能以及架构相关方面的内容，建立对于终版 mini_skyvern 宏观上的认识。
+在 **mini_skyvern project 技术复盘** 中，我们详细介绍了单步 quest 从一开始的 demo -> final version的演化过程。但是光有单步 quest 的 mini_skyvern 在功能上以及可玩性过于单一，所以在后期的调整中，mini_skyvern 参考 skyvern 加入了 的多 quest 组合功能等，完善了整体的架构。在 **mini_skyvern project 架构简览**当中，我们将详细介绍 mini_skyvern 最终版本的功能以及架构相关方面的内容，建立对于终版 mini_skyvern 宏观上的认识。
 
-
+## 功能架构
 
 ![框架说明图](/assets/img/mini_skyvern2/mini_skyvern2shuomingtu.jpg){: width="100%" }
+
+## 技术架构
+
+## 代码架构
+
+在代码架构方面，我们将主要参考 AI 生成的图表和文档。（作为技术架构的辅助参考）
+
+## 小结
+
+至此，我们已经介绍完
