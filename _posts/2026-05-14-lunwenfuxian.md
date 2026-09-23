@@ -1,5 +1,5 @@
 ---
-title: "论文复现 Quant GANs: Deep Generation of Financial Time Series"
+title: "论文分析 Quant GANs: Deep Generation of Financial Time Series"
 date: 2026-05-14 14:30:00 +0800
 categories: [建站]
 tags: [论文复现, 入门]
@@ -90,6 +90,4 @@ $Z_t$是生成器唯一的输入，也是整个生成过程的种子。作为一
 
 **最后，作者对训练后的数据进行了风险中性测度转换。**
 
-## part2 论文相关复现：
-
-## part3 复盘总结：
+## part2 复盘总结：
